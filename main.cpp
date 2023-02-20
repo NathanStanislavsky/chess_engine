@@ -20,22 +20,10 @@ string coords_to_square(int index) {
 // main driver
 int main()
 {
-    Pos pos("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ -");
+    Pos pos("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
     pos.printBoard();
     
-    // string input;
-    // cin >> input;
-    // pos.doMove(Move(square_to_coords(input.substr(0,2)), square_to_coords(input.substr(2,4))));
-    // pos.printBoard();
-
-    cout << perft(pos, 4, true) << endl;
-
-    // vector<Move> moves = generate_legal_moves(pos);
-    // cout << moves.size() << endl;
-
-    // for (int i = 0; i < moves.size(); i++) {
-    //     cout << "Move from square " << coords_to_square(moves[i].fromSq) << " to square " << coords_to_square(moves[i].toSq) << endl;
-    // }
+    cout << perft(pos, 2, true) << endl;
 
     return 0;
 }

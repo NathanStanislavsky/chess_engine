@@ -11,6 +11,11 @@ int startingBlackKingPosition = 4;
 int startingBlackKingRookPosition = 7;
 int startingBlackQueenRookPosition = 0;
 
+int numCaptures = 0;
+int numEnpassant = 0;
+int numCastles = 0;
+int numChecks = 0;
+
 bool pieceColor(int piece) {
     if (piece > 0 && piece < 7) {
         return true;
@@ -21,7 +26,7 @@ bool pieceColor(int piece) {
 
 vector<Move> generate_psuedo_moves(Pos pos) {
     vector<Move> moves;
-    moves.reserve(100);
+    moves.reserve(300);
     for (int square = 0; square < 64; square++) {
         int row = square / 8;
         int col = square % 8;
@@ -373,10 +378,12 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                 // white queen castling
                 if (pos.currentPlayer && square == startingWhiteKingPosition && square - 4 == startingWhiteQueenRookPosition && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
                     moves.emplace_back(square, square - 2);
+
                 }
                 // black king castle
                 if (!pos.currentPlayer && square == startingBlackKingPosition && square + 3 == startingBlackKingRookPosition && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
                     moves.emplace_back(square, square + 2);
+
                 }
 
                 // black queen castling

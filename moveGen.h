@@ -2,6 +2,7 @@
 #include <vector>
 #include "pos.h"
 #include "move.h"
+#include "castling.h"
 
 using namespace std;
 
