@@ -11,10 +11,6 @@ int startingBlackKingPosition = 4;
 int startingBlackKingRookPosition = 7;
 int startingBlackQueenRookPosition = 0;
 
-int numCaptures = 0;
-int numEnpassant = 0;
-int numCastles = 0;
-int numChecks = 0;
 
 bool pieceColor(int piece) {
     if (piece > 0 && piece < 7) {
@@ -54,11 +50,11 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, square - 7);
                 }
                 // enpassant left
-                if (row == 3 && pos.board_array[square - 9] == pos.enpassantSquareLog.back()) {
+                if (row == 3 && square - 9 == pos.enpassantSquareLog.back()) {
                     moves.emplace_back(square, square - 9);
                 }
                 // enpassant right
-                if (row == 3 && pos.board_array[square - 7] == pos.enpassantSquareLog.back()) {
+                if (row == 3 && square - 7 == pos.enpassantSquareLog.back()) {
                     moves.emplace_back(square, square - 7);
                 }
                 // promotion
@@ -81,16 +77,15 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, square + 9);
                 }
                 // right
-                if (col > 0 && pos.board_array[square + 7] > 0 && pos.board_array[square + 7] < 7) {
-                    moves.
-                    emplace_back(square, square + 7);
+                if (col > 0 && pos.board_array[square + 7] > e && pos.board_array[square + 7] < p) {
+                    moves.emplace_back(square, square + 7);
                 }
                 // enpassant left
-                if (row == 4 && pos.board_array[square + 9] == pos.enpassantSquareLog.back()) {
+                if (row == 4 && square + 9 == pos.enpassantSquareLog.back()) {
                     moves.emplace_back(square, square + 9);
                 }
                 // enpassant right
-                if (row == 4 && pos.board_array[square + 7] == pos.enpassantSquareLog.back()) {
+                if (row == 4 && square + 7 == pos.enpassantSquareLog.back()) {
                     moves.emplace_back(square, square + 7);
                 }
                 // promotion

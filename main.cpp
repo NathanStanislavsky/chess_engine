@@ -20,10 +20,10 @@ string coords_to_square(int index) {
 // main driver
 int main()
 {
-    Pos pos("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+    Pos pos("r3k2r/p1ppqpb1/bn2pnp1/3PN3/Np2P3/5Q1p/PPPBBPPP/R3K2R b KQkq -");
     pos.printBoard();
     
-    cout << perft(pos, 2, true) << endl;
+    cout << perft(pos, 1, true) << endl;
 
     return 0;
 }
