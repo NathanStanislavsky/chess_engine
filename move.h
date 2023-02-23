@@ -6,14 +6,14 @@ class Move {
     public:
         int fromSq;
         int toSq;
+        int piece;
 
         int promotionType;
-        bool isWhitePromotion; 
-        bool isBlackPromotion;
+        bool isPromotion;
 
-        Move(int fSq, int tSq, int ptype, bool wprom, bool bprom);
+        Move(int fSq, int tSq, int ptype, bool isPromotion);
 
-        Move(int fSq, int tSq);
+        Move(int fSq, int tSq, int pieceParam);
 };
 
 string to_string(Move move);
