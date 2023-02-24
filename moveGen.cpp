@@ -48,11 +48,11 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, square - 7, pos.board_array[square]);
                 }
                 // enpassant left
-                if (row == 3 && square - 9 == pos.enpassantSquareLog.back()) {
+                if (row == 3 && square - 9 == pos.enpassantSquare) {
                     moves.emplace_back(square, square - 9, pos.board_array[square]);
                 }
                 // enpassant right
-                if (row == 3 && square - 7 == pos.enpassantSquareLog.back()) {
+                if (row == 3 && square - 7 == pos.enpassantSquare) {
                     moves.emplace_back(square, square - 7, pos.board_array[square]);
                 }
                 // promotion
@@ -94,11 +94,11 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, square + 7, pos.board_array[square]);
                 }
                 // enpassant left
-                if (row == 4 && square + 9 == pos.enpassantSquareLog.back()) {
+                if (row == 4 && square + 9 == pos.enpassantSquare) {
                     moves.emplace_back(square, square + 9, pos.board_array[square]);
                 }
                 // enpassant right
-                if (row == 4 && square + 7 == pos.enpassantSquareLog.back()) {
+                if (row == 4 && square + 7 == pos.enpassantSquare) {
                     moves.emplace_back(square, square + 7, pos.board_array[square]);
                 }
                 // promotion
@@ -394,23 +394,23 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                         moves.emplace_back(square, row * 8 + (col - 1), pos.board_array[square]);
                     }
                 } 
-
+                
                 // white king castle
-                if (pos.currentPlayer && square == startingWhiteKingPosition && square + 3 == startingWhiteKingRookPosition && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
+                if (pos.currentPlayer && pos.cr.wkc && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
                     moves.emplace_back(square, square + 2, pos.board_array[square]);
                 }
 
                 // white queen castling
-                if (pos.currentPlayer && square == startingWhiteKingPosition && square - 4 == startingWhiteQueenRookPosition && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                if (pos.currentPlayer && pos.cr.wqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e && pos.board_array[square - 3] == e) {
                     moves.emplace_back(square, square - 2, pos.board_array[square]);
                 }
                 // black king castle
-                if (!pos.currentPlayer && square == startingBlackKingPosition && square + 3 == startingBlackKingRookPosition && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
+                if (!pos.currentPlayer && pos.cr.bkc && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
                     moves.emplace_back(square, square + 2, pos.board_array[square]);
                 }
 
                 // black queen castling
-                if (!pos.currentPlayer && square == startingBlackKingPosition && square - 4 == startingBlackQueenRookPosition && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                if (!pos.currentPlayer && pos.cr.bqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e && pos.board_array[square - 3] == e) {
                     moves.emplace_back(square, square - 2, pos.board_array[square]);
                 }
             }
