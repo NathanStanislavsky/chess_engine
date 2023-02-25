@@ -24,7 +24,7 @@ class Pos {
         list<int> pieceCapturedLog;
         list<Castling> castlingRightsLog;
         list<int> enpassantSquareLog;
-        list<Move> moveLog;
+        vector<Move> moveLog;
 
         Pos(string fen);
         void printBoard();

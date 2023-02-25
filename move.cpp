@@ -15,6 +15,13 @@ Move::Move(int fSq, int tSq, int ptype, bool isProm) {
     isPromotion = isProm;
 }
 
+Move::Move(int fSq, int tSq, bool isEnp, int ptype) {
+    fromSq = fSq;
+    toSq = tSq;
+    isEnpassant = isEnp;
+    promotionType = ptype;
+}
+
 string to_string(Move move) {
     return coords_to_square(move.fromSq) + coords_to_square(move.toSq);
 }

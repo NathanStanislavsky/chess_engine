@@ -160,25 +160,13 @@ void Pos::doMove(Move move) {
     if (board_array[move.fromSq] == r && move.fromSq == 0) {
         cr.bqc = false;
     }
-    if (board_array[move.fromSq] == P && abs(move.fromSq - move.toSq) == 16) {
+    if ((board_array[move.fromSq] == P || board_array[move.fromSq] == p) && abs(move.fromSq - move.toSq) == 16) {
         // pawn moves two squares from starting position
         enpassantSquare = (move.fromSq + move.toSq) / 2;
-    } else if (board_array[move.fromSq] == P && move.toSq == enpassantSquare) {
-        // pawn captures en passant
-        enpassantSquare = -1;
     } else {
         enpassantSquare = -1;
     }
 
-    if (board_array[move.fromSq] == p && abs(move.fromSq - move.toSq) == 16) {
-        // pawn moves two squares from starting position
-        enpassantSquare = (move.fromSq + move.toSq) / 2;
-    } else if (board_array[move.fromSq] == p && move.toSq == enpassantSquare) {
-        // pawn captures en passant
-        enpassantSquare = -1;
-    } else {
-        enpassantSquare = -1;
-    }
     // pawn promtion
     if (board_array[move.fromSq] == P && move.fromSq/8 == 1 && move.toSq/8 == 0) {
         board_array[move.toSq] = move.promotionType;
@@ -188,6 +176,10 @@ void Pos::doMove(Move move) {
         board_array[move.toSq] = move.promotionType;
         board_array[move.fromSq] = e;
         move.isPromotion = true;
+    // } else if (move.isEnpassant) {
+    //     board_array[move.toSq] = board_array[move.fromSq];
+    //     board_array[move.fromSq] = e;
+    //     board_array[moveLog.back().toSq] = e;
     } else {
         board_array[move.toSq] = board_array[move.fromSq];
         board_array[move.fromSq] = e;
@@ -208,9 +200,12 @@ void Pos::undoMove() {
 
     enpassantSquareLog.pop_back();
 
-    if (move.isPromotion) { // **********************************************************************************************************
+    if (move.isPromotion) {
         board_array[move.fromSq] = move.piece;
         board_array[move.toSq] = pieceCapturedLog.back();
+    // } else if (move.isEnpassant) {
+    //     board_array[move.fromSq] = board_array[move.toSq];
+    //     board_array[moveLog[moveLog.size()-2].toSq];
     } else {
         board_array[move.fromSq] = board_array[move.toSq];
         board_array[move.toSq] = pieceCapturedLog.back();
@@ -231,13 +226,13 @@ bool Pos::inCheck(int targetSquare) {
         if (currentPlayer) {
             if (board_array[i * 8 + col] != e && board_array[i * 8 + col] != r && board_array[i * 8 + col] != q) {
                 break;
-            } else if (board_array[i * 8 + col] == r && board_array[i * 8 + col] == q) {
+            } else if (board_array[i * 8 + col] == r || board_array[i * 8 + col] == q) {
                 return true;
             }
         } else {
             if (board_array[i * 8 + col] != e && board_array[i * 8 + col] != R && board_array[i * 8 + col] != Q) {
                 break;
-            } else if (board_array[i * 8 + col] == R && board_array[i * 8 + col] == Q) {
+            } else if (board_array[i * 8 + col] == R || board_array[i * 8 + col] == Q) {
                 return true;
             }
         }
@@ -247,13 +242,13 @@ bool Pos::inCheck(int targetSquare) {
         if (currentPlayer) {
             if (board_array[i * 8 + col] != e && board_array[i * 8 + col] != r && board_array[i * 8 + col] != q) {
                 break;
-            } else if (board_array[i * 8 + col] == r && board_array[i * 8 + col] == q) {
+            } else if (board_array[i * 8 + col] == r || board_array[i * 8 + col] == q) {
                 return true;
             }
         } else {
             if (board_array[i * 8 + col] != e && board_array[i * 8 + col] != R && board_array[i * 8 + col] != Q) {
                 break;
-            } else if (board_array[i * 8 + col] == R && board_array[i * 8 + col] == Q) {
+            } else if (board_array[i * 8 + col] == R || board_array[i * 8 + col] == Q) {
                 return true;
             }
         }
@@ -263,13 +258,13 @@ bool Pos::inCheck(int targetSquare) {
         if (currentPlayer) {
             if (board_array[row * 8 + i] != e && board_array[row * 8 + i] != r && board_array[row * 8 + i] != q) {
                 break;
-            } else if (board_array[row * 8 + i] == r && board_array[row * 8 + i] == q) {
+            } else if (board_array[row * 8 + i] == r || board_array[row * 8 + i] == q) {
                 return true;
             }
         } else {
             if (board_array[row * 8 + i] != e && board_array[row * 8 + i] != R && board_array[row * 8 + i] != Q) {
                 break;
-            } else if (board_array[row * 8 + i] == R && board_array[row * 8 + i] == Q) {
+            } else if (board_array[row * 8 + i] == R || board_array[row * 8 + i] == Q) {
                 return true;
             }
         }
@@ -279,13 +274,13 @@ bool Pos::inCheck(int targetSquare) {
         if (currentPlayer) {
             if (board_array[row * 8 + i] != e && board_array[row * 8 + i] != r && board_array[row * 8 + i] != q) {
                 break;
-            } else if (board_array[row * 8 + i] == r && board_array[row * 8 + i] == q) {
+            } else if (board_array[row * 8 + i] == r || board_array[row * 8 + i] == q) {
                 return true;
             }
         } else {
             if (board_array[row * 8 + i] != e && board_array[row * 8 + i] != R && board_array[row * 8 + i] != Q) {
                 break;
-            } else if (board_array[row * 8 + i] == R && board_array[row * 8 + i] == Q) {
+            } else if (board_array[row * 8 + i] == R || board_array[row * 8 + i] == Q) {
                 return true;
             }
         }
@@ -293,15 +288,15 @@ bool Pos::inCheck(int targetSquare) {
     // attack from top left
     for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
         if (currentPlayer) {
-            if (board_array[(row - i) * 8 + (col - i)] != e && board_array[(row - i) * 8 + (col - i)] != b && board_array[(row - i) * 8 + (col - i)] != q) {
+            if (board_array[(row - i) * 8 + (col - i)] != e || board_array[(row - i) * 8 + (col - i)] != b && board_array[(row - i) * 8 + (col - i)] != q) {
                 break;
-            } else if (board_array[(row - i) * 8 + (col - i)] == b && board_array[(row - i) * 8 + (col - i)] == q) {
+            } else if (board_array[(row - i) * 8 + (col - i)] == b || board_array[(row - i) * 8 + (col - i)] == q) {
                 return true;
             }
         } else {
             if (board_array[(row - i) * 8 + (col - i)] != e && board_array[(row - i) * 8 + (col - i)] != B && board_array[(row - i) * 8 + (col - i)] != Q) {
                 break;
-            } else if (board_array[(row - i) * 8 + (col - i)] == B && board_array[(row - i) * 8 + (col - i)] == Q) {
+            } else if (board_array[(row - i) * 8 + (col - i)] == B || board_array[(row - i) * 8 + (col - i)] == Q) {
                 return true;
             }
         }
@@ -311,13 +306,13 @@ bool Pos::inCheck(int targetSquare) {
         if (currentPlayer) {
             if (board_array[(row - i) * 8 + (col + i)] != e && board_array[(row - i) * 8 + (col + i)] != b && board_array[(row - i) * 8 + (col + i)] != q) {
                 break;
-            } else if (board_array[(row - i) * 8 + (col + i)] == b && board_array[(row - i) * 8 + (col + i)] == q) {
+            } else if (board_array[(row - i) * 8 + (col + i)] == b || board_array[(row - i) * 8 + (col + i)] == q) {
                 return true;
             }
         } else {
             if (board_array[(row - i) * 8 + (col + i)] != e && board_array[(row - i) * 8 + (col + i)] != B && board_array[(row - i) * 8 + (col + i)] != Q) {
                 break;
-            } else if (board_array[(row - i) * 8 + (col + i)] == B && board_array[(row - i) * 8 + (col + i)] == Q) {
+            } else if (board_array[(row - i) * 8 + (col + i)] == B || board_array[(row - i) * 8 + (col + i)] == Q) {
                 return true;
             }
         }
@@ -327,13 +322,13 @@ bool Pos::inCheck(int targetSquare) {
         if (currentPlayer) {
             if (board_array[(row + i) * 8 + (col - i)] != e && board_array[(row + i) * 8 + (col - i)] != b && board_array[(row + i) * 8 + (col - i)] != q) {
                 break;
-            } else if (board_array[(row + i) * 8 + (col - i)] == b && board_array[(row + i) * 8 + (col - i)] == q) {
+            } else if (board_array[(row + i) * 8 + (col - i)] == b || board_array[(row + i) * 8 + (col - i)] == q) {
                 return true;
             }
         } else {
             if (board_array[(row + i) * 8 + (col - i)] != e && board_array[(row + i) * 8 + (col - i)] != B && board_array[(row + i) * 8 + (col - i)] != Q) {
                 break;
-            } else if (board_array[(row + i) * 8 + (col - i)] == B && board_array[(row + i) * 8 + (col - i)] == Q) {
+            } else if (board_array[(row + i) * 8 + (col - i)] == B || board_array[(row + i) * 8 + (col - i)] == Q) {
                 return true;
             }
         }
@@ -343,13 +338,13 @@ bool Pos::inCheck(int targetSquare) {
         if (currentPlayer) {
             if (board_array[(row + i) * 8 + (col + i)] != e && board_array[(row + i) * 8 + (col + i)] != b && board_array[(row + i) * 8 + (col + i)] != q) {
                 break;
-            } else if (board_array[(row + i) * 8 + (col + i)] == b && board_array[(row + i) * 8 + (col + i)] == q) {
+            } else if (board_array[(row + i) * 8 + (col + i)] == b || board_array[(row + i) * 8 + (col + i)] == q) {
                 return true;
             }
         } else {
             if (board_array[(row + i) * 8 + (col + i)] != e && board_array[(row + i) * 8 + (col + i)] != B && board_array[(row + i) * 8 + (col + i)] != Q) {
                 break;
-            } else if (board_array[(row + i) * 8 + (col + i)] == B && board_array[(row + i) * 8 + (col + i)] == Q) {
+            } else if (board_array[(row + i) * 8 + (col + i)] == B || board_array[(row + i) * 8 + (col + i)] == Q) {
                 return true;
             }
         }

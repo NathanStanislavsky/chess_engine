@@ -48,12 +48,12 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, square - 7, pos.board_array[square]);
                 }
                 // enpassant left
-                if (row == 3 && square - 9 == pos.enpassantSquareLog.back()) {
-                    moves.emplace_back(square, square - 9, pos.board_array[square]);
+                if (row == 3 && square - 9 == pos.enpassantSquare) {
+                    moves.emplace_back(square, square - 9, true, pos.board_array[square]);
                 }
                 // enpassant right
-                if (row == 3 && square - 7 == pos.enpassantSquareLog.back()) {
-                    moves.emplace_back(square, square - 7, pos.board_array[square]);
+                if (row == 3 && square - 7 == pos.enpassantSquare) {
+                    moves.emplace_back(square, square - 7, true, pos.board_array[square]);
                 }
                 // promotion
                 if (row == 1 && pos.board_array[square - 8] == e) {
@@ -94,12 +94,12 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, square + 7, pos.board_array[square]);
                 }
                 // enpassant left
-                if (row == 4 && square + 9 == pos.enpassantSquareLog.back()) {
-                    moves.emplace_back(square, square + 9, pos.board_array[square]);
+                if (row == 4 && square + 9 == pos.enpassantSquare) {
+                    moves.emplace_back(square, square + 9, true, pos.board_array[square]);
                 }
                 // enpassant right
-                if (row == 4 && square + 7 == pos.enpassantSquareLog.back()) {
-                    moves.emplace_back(square, square + 7, pos.board_array[square]);
+                if (row == 4 && square + 7 == pos.enpassantSquare) {
+                    moves.emplace_back(square, square + 7, true, pos.board_array[square]);
                 }
                 // promotion
                 if (row == 6 && pos.board_array[square + 8] == e) {
