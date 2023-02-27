@@ -21,9 +21,9 @@ class Pos {
         // enpassant square
         int enpassantSquare;
 
-        list<int> pieceCapturedLog;
-        list<Castling> castlingRightsLog;
-        list<int> enpassantSquareLog;
+        vector<int> pieceCapturedLog;
+        vector<Castling> castlingRightsLog;
+        vector<int> enpassantSquareLog;
         vector<Move> moveLog;
 
         Pos(string fen);

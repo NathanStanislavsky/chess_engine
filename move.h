@@ -17,7 +17,7 @@ class Move {
 
         Move(int fSq, int tSq, int pieceParam);
 
-        Move(int fSq, int tSq, bool isEnp, int pieceParam);
+        Move(int fSq, int tSq, bool isEnp);
 };
 
 string to_string(Move move);

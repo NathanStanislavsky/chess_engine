@@ -10,7 +10,6 @@ int perft(Pos pos, int depth, bool verbose) {
     }
     // if (depth == 1) {
     //     pos.printBoard();
-    //     cout << pos.enpassantSquare;
     // }
 
     vector<Move>* validMoves = new vector<Move>(generate_legal_moves(pos));
@@ -19,11 +18,12 @@ int perft(Pos pos, int depth, bool verbose) {
     for (int i = 0; i < validMoves->size(); i++) {
         pos.doMove((*validMoves)[i]);
         int result = perft(pos, depth - 1, false);
-        if (verbose || depth == 1) {
+        if (verbose) {
             cout << to_string((*validMoves)[i]) + " " + to_string(result) << endl;
         }
         count += result;
         pos.undoMove();
+        
     }
     delete validMoves;
 

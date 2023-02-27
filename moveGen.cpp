@@ -393,7 +393,7 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     if ((pos.board_array[row * 8 + (col - 1)] == e) || (piece == K && pos.board_array[row * 8 + (col - 1)] > 6) || (piece == k && pos.board_array[row * 8 + (col - 1)] < 7)) {
                         moves.emplace_back(square, row * 8 + (col - 1), pos.board_array[square]);
                     }
-                } 
+                }
 
                 // white king castle
                 if (pos.currentPlayer && square == startingWhiteKingPosition && square + 3 == startingWhiteKingRookPosition && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
@@ -426,13 +426,17 @@ vector<Move> generate_legal_moves(Pos pos) {
 
     for (int i = 0; i < psuedo_moves.size(); i++) {
         pos.doMove(psuedo_moves[i]);
-
+        // pos.printBoard();
+        // cout << to_string(psuedo_moves[i]) << endl;
         vector<Move> oppsPsuedoMoves = generate_psuedo_moves(pos);
-        
+        // pos.printBoard();
         bool isKingSafe = true;
         for (int j = 0; j < oppsPsuedoMoves.size(); j++) {
+            // cout << to_string(oppsPsuedoMoves[j]) << endl;
+
             if (pos.board_array[oppsPsuedoMoves[j].toSq] == K || pos.board_array[oppsPsuedoMoves[j].toSq] == k) {
                 isKingSafe = false;
+                // cout << "FUCKKKKK";
                 break;
             }
         }
@@ -440,6 +444,7 @@ vector<Move> generate_legal_moves(Pos pos) {
             legal_moves.push_back(psuedo_moves[i]);
         }
         pos.undoMove();
+        // pos.printBoard();
     }
     return legal_moves;
 }

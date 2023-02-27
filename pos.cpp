@@ -7,6 +7,7 @@
 #include <sstream>
 #include "pos.h"
 #include "castling.h"
+#include "moveGen.h"
 using namespace std;
 
 int square_to_coords(string s);
@@ -135,8 +136,19 @@ void Pos::printBoard() {
 }
 
 void Pos::doMove(Move move) {
+
+    // bool kingFound = false;
+    // for (int i = 0; i < 64; i++) {
+    //     if (board_array[i] == K) {
+    //         kingFound = true;
+    //     }
+    // }
+    // if (!kingFound) {
+    //     cout << "SHITTTTTT";
+    // }
+
     pieceCapturedLog.push_back(board_array[move.toSq]);
-    castlingRightsLog.push_back(Castling(cr.wkc, cr.wqc, cr.bkc, cr.bqc));
+    castlingRightsLog.push_back(cr);
     enpassantSquareLog.push_back(enpassantSquare);
     moveLog.push_back(move);
 
@@ -176,14 +188,21 @@ void Pos::doMove(Move move) {
         board_array[move.toSq] = move.promotionType;
         board_array[move.fromSq] = e;
         move.isPromotion = true;
-    // } else if (move.isEnpassant) {
-    //     board_array[move.toSq] = board_array[move.fromSq];
-    //     board_array[move.fromSq] = e;
-    //     board_array[moveLog.back().toSq] = e;
+    } else if (move.isEnpassant) {
+        if (move.piece == P) {
+            board_array[move.toSq] = board_array[move.fromSq];
+            board_array[move.fromSq] = e;
+            board_array[move.toSq+8] = e;
+        } else {
+            board_array[move.toSq] = board_array[move.fromSq];
+            board_array[move.fromSq] = e;
+            board_array[move.toSq-8] = e;
+        }
     } else {
         board_array[move.toSq] = board_array[move.fromSq];
         board_array[move.fromSq] = e;
     }
+
     currentPlayer = !currentPlayer;
 }
 
@@ -201,11 +220,23 @@ void Pos::undoMove() {
     enpassantSquareLog.pop_back();
 
     if (move.isPromotion) {
-        board_array[move.fromSq] = move.piece;
-        board_array[move.toSq] = pieceCapturedLog.back();
-    // } else if (move.isEnpassant) {
-    //     board_array[move.fromSq] = board_array[move.toSq];
-    //     board_array[moveLog[moveLog.size()-2].toSq];
+        if (currentPlayer) {
+            board_array[move.fromSq] = P; // **********************************************************************************
+            board_array[move.toSq] = pieceCapturedLog.back();
+        } else {
+            board_array[move.fromSq] = p; 
+            board_array[move.toSq] = pieceCapturedLog.back();
+        }
+    } else if (move.isEnpassant) {
+        if (move.piece == P) {
+            board_array[move.fromSq] = board_array[move.toSq];
+            board_array[move.toSq] = e;
+            board_array[move.toSq+8] = p;
+        } else {
+            board_array[move.fromSq] = board_array[move.toSq];
+            board_array[move.toSq] = e;
+            board_array[move.toSq-8] = P;
+        }
     } else {
         board_array[move.fromSq] = board_array[move.toSq];
         board_array[move.toSq] = pieceCapturedLog.back();
