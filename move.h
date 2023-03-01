@@ -13,11 +13,7 @@ class Move {
 
         bool isEnpassant;
 
-        Move(int fSq, int tSq, int ptype, bool isPromotion);
-
-        Move(int fSq, int tSq, int pieceParam);
-
-        Move(int fSq, int tSq, bool isEnp);
+        Move(int fSq, int tSq, int pieceParam, bool isEnp, int ptype, bool isProm);
 };
 
 string to_string(Move move);
