@@ -1,3 +1,0 @@
-/mnt/c/Github/chess_engine/build/CMakeFiles/main.dir
-/mnt/c/Github/chess_engine/build/CMakeFiles/edit_cache.dir
-/mnt/c/Github/chess_engine/build/CMakeFiles/rebuild_cache.dir

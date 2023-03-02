@@ -8,6 +8,7 @@
 #include "pos.h"
 #include "castling.h"
 #include "moveGen.h"
+#include <cassert>
 using namespace std;
 
 int square_to_coords(string s);

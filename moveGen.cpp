@@ -1,5 +1,6 @@
 // loop through board and write if statements for each piece then push to vector if legal move
 #include "moveGen.h"
+#include "cassert"
 using namespace std;
 
 string coords_to_square(int index);
@@ -22,6 +23,7 @@ bool pieceColor(int piece) {
 }
 
 vector<Move> generate_psuedo_moves(Pos pos) {
+
     vector<Move> moves;
     moves.reserve(300);
     for (int square = 0; square < 64; square++) {
@@ -64,14 +66,14 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, square - 8, piece, false, Q, true);
                 }
                 // promotion capture left
-                if (row == 1 && pos.board_array[square - 9] > 6) {
+                if (col > 0 && row == 1 && pieceColor(pos.board_array[square - 9]) != pos.currentPlayer) {
                     moves.emplace_back(square, square - 9, piece, false, R, true);
                     moves.emplace_back(square, square - 9, piece, false, N, true);
                     moves.emplace_back(square, square - 9, piece, false, B, true);
                     moves.emplace_back(square, square - 9, piece, false, Q, true);
                 }
                 // promotion capture right
-                if (row == 1 && pos.board_array[square - 7] > 6) {
+                if (col < 7 && row == 1 && pos.board_array[square - 7] > 6) {
                     moves.emplace_back(square, square - 7, piece, false, R, true);
                     moves.emplace_back(square, square - 7, piece, false, N, true);
                     moves.emplace_back(square, square - 7, piece, false, B, true);
@@ -110,19 +112,20 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, square + 8, piece, false, q, true);
                 }
                 // promotion capture left
-                if (row == 6 && pos.board_array[square + 7] > 0 && pos.board_array[square + 7] < 7) {
+                if (col < 7 && row == 6 && pos.board_array[square + 7] > 0 && pos.board_array[square + 7] < 7) {
                     moves.emplace_back(square, square + 7, piece, false, r, true);
                     moves.emplace_back(square, square + 7, piece, false, n, true);
                     moves.emplace_back(square, square + 7, piece, false, b, true);
                     moves.emplace_back(square, square + 7, piece, false, q, true);
                 }
                 // promotion capture right
-                if (row == 6 && pos.board_array[square + 9] > 0 && pos.board_array[square + 9] < 7) {
+                if (col > 0 && row == 6 && pos.board_array[square + 9] > 0 && pos.board_array[square + 9] < 7) {
                     moves.emplace_back(square, square + 9, piece, false, r, true);
                     moves.emplace_back(square, square + 9, piece, false, n, true);
                     moves.emplace_back(square, square + 9, piece, false, n, true);
                     moves.emplace_back(square, square + 9, piece, false, q, true);
                 }
+            
             } else if (piece == N || piece == n) {
                 int rowOffsets[] = {-2, -1, 1, 2, 2, 1, -1, -2};
                 int colOffsets[] = {1, 2, 2, 1, -1, -2, -2, -1};
@@ -397,21 +400,22 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                 }
 
                 // white king castle
-                if (pos.currentPlayer && square == startingWhiteKingPosition && square + 3 == startingWhiteKingRookPosition && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
+                if (pos.currentPlayer && pos.cr.wkc && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
                     moves.emplace_back(square, square + 2, piece, false, piece, false);
                 }
 
                 // white queen castling
-                if (pos.currentPlayer && square == startingWhiteKingPosition && square - 4 == startingWhiteQueenRookPosition && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                if (pos.currentPlayer && pos.cr.wqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
                     moves.emplace_back(square, square - 2, piece, false, piece, false);
                 }
                 // black king castle
-                if (!pos.currentPlayer && square == startingBlackKingPosition && square + 3 == startingBlackKingRookPosition && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
+                if (!pos.currentPlayer && pos.cr.bkc && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
                     moves.emplace_back(square, square + 2, piece, false, piece, false);
                 }
 
                 // black queen castling
-                if (!pos.currentPlayer && square == startingBlackKingPosition && square - 4 == startingBlackQueenRookPosition && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                if (!pos.currentPlayer && pos.cr.bqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                    assert(square - 2 >= 0);
                     moves.emplace_back(square, square - 2, piece, false, piece, false);
                 }
             }
