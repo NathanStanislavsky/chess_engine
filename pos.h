@@ -21,10 +21,10 @@ class Pos {
         // enpassant square
         int enpassantSquare;
 
-        list<int> pieceCapturedLog;
-        list<Castling> castlingRightsLog;
-        list<int> enpassantSquareLog;
-        list<Move> moveLog;
+        vector<int> pieceCapturedLog;
+        vector<Castling> castlingRightsLog;
+        vector<int> enpassantSquareLog;
+        vector<Move> moveLog;
 
         Pos(string fen);
         void printBoard();
