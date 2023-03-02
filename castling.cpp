@@ -8,5 +8,8 @@ Castling::Castling(bool wk, bool wq, bool bk, bool bq) {
 }
 
 Castling::Castling() {
-
+    wkc = false;
+    wqc = false;
+    bkc = false;
+    bqc = false;
 }

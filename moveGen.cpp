@@ -18,6 +18,7 @@ bool pieceColor(int piece) {
     } else if (piece > 6 && piece < 13) {
         return false;
     }
+    return false;
 }
 
 vector<Move> generate_psuedo_moves(Pos pos) {
