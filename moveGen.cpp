@@ -25,7 +25,7 @@ bool pieceColor(int piece) {
 vector<Move> generate_psuedo_moves(Pos pos) {
 
     vector<Move> moves;
-    moves.reserve(300);
+    
     for (int square = 0; square < 64; square++) {
         int row = square / 8;
         int col = square % 8;
@@ -398,25 +398,25 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                         moves.emplace_back(square, row * 8 + (col - 1), piece, false, piece, false);
                     }
                 }
-
+                
                 // white king castle
                 if (pos.currentPlayer && pos.cr.wkc && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
-                    moves.emplace_back(square, square + 2, piece, false, piece, false);
+                    moves.emplace_back(square, square + 2, piece, false, piece, false, true);
                 }
 
                 // white queen castling
-                if (pos.currentPlayer && pos.cr.wqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
-                    moves.emplace_back(square, square - 2, piece, false, piece, false);
+                if (pos.currentPlayer && pos.cr.wqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                    moves.emplace_back(square, square - 2, piece, false, piece, false, true);
                 }
                 // black king castle
                 if (!pos.currentPlayer && pos.cr.bkc && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
-                    moves.emplace_back(square, square + 2, piece, false, piece, false);
+                    moves.emplace_back(square, square + 2, piece, false, piece, false, true);
                 }
 
                 // black queen castling
-                if (!pos.currentPlayer && pos.cr.bqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && !pos.inCheck(square - 3) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                if (!pos.currentPlayer && pos.cr.bqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
                     assert(square - 2 >= 0);
-                    moves.emplace_back(square, square - 2, piece, false, piece, false);
+                    moves.emplace_back(square, square - 2, piece, false, piece, false, true);
                 }
             }
         }

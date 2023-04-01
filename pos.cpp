@@ -138,15 +138,6 @@ void Pos::printBoard() {
 
 void Pos::doMove(Move move) {
 
-    // bool kingFound = false;
-    // for (int i = 0; i < 64; i++) {
-    //     if (board_array[i] == K) {
-    //         kingFound = true;
-    //     }
-    // }
-    // if (!kingFound) {
-    //     cout << "SHITTTTTT";
-    // }
 
     pieceCapturedLog.push_back(board_array[move.toSq]);
     castlingRightsLog.push_back(cr);
@@ -181,14 +172,9 @@ void Pos::doMove(Move move) {
     }
 
     // pawn promtion
-    if (board_array[move.fromSq] == P && move.fromSq/8 == 1 && move.toSq/8 == 0) {
+    if (move.isPromotion) {
         board_array[move.toSq] = move.promotionType;
         board_array[move.fromSq] = e;
-        move.isPromotion = true;
-    } else if (board_array[move.fromSq] == p && move.fromSq/8 == 6 && move.toSq/8 == 7) {
-        board_array[move.toSq] = move.promotionType;
-        board_array[move.fromSq] = e;
-        move.isPromotion = true;
     } else if (move.isEnpassant) {
         if (move.piece == P) {
             board_array[move.toSq] = board_array[move.fromSq];
@@ -198,6 +184,20 @@ void Pos::doMove(Move move) {
             board_array[move.toSq] = board_array[move.fromSq];
             board_array[move.fromSq] = e;
             board_array[move.toSq-8] = e;
+        }
+    } else if (move.isCastle) {
+        if (move.toSq-move.fromSq == 2) {
+            // kingside castle
+            board_array[move.toSq] = board_array[move.fromSq];
+            board_array[move.fromSq] = e;
+            board_array[move.toSq-1] = board_array[move.fromSq+3];
+            board_array[move.fromSq+3] = e;
+        } else if (move.toSq-move.fromSq == -2) {
+            // queenside castle
+            board_array[move.toSq] = board_array[move.fromSq];
+            board_array[move.fromSq] = e;
+            board_array[move.toSq+1] = board_array[move.fromSq-4];
+            board_array[move.fromSq-4] = e;
         }
     } else {
         board_array[move.toSq] = board_array[move.fromSq];
@@ -237,6 +237,20 @@ void Pos::undoMove() {
             board_array[move.fromSq] = board_array[move.toSq];
             board_array[move.toSq] = e;
             board_array[move.toSq-8] = P;
+        }
+    } else if (move.isCastle) {
+        if (move.toSq-move.fromSq == 2) {
+            // kingside castle
+            board_array[move.fromSq] = board_array[move.toSq];
+            board_array[move.toSq] = e;
+            board_array[move.fromSq + 3] = board_array[move.fromSq + 1];
+            board_array[move.fromSq+1] = e;
+        } else if (move.toSq-move.fromSq == -2) {
+            // queenside castle
+            board_array[move.fromSq] = board_array[move.toSq];
+            board_array[move.toSq] = e;
+            board_array[move.fromSq-4] = board_array[move.fromSq-1];
+            board_array[move.fromSq-1] = e;
         }
     } else {
         board_array[move.fromSq] = board_array[move.toSq];

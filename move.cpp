@@ -2,13 +2,14 @@
 
 string coords_to_square(int index);
 
-Move::Move(int fSq, int tSq, int pieceParam, bool isEnp, int ptype, bool isProm) {
+Move::Move(int fSq, int tSq, int pieceParam, bool isEnp, int ptype, bool isProm, bool isCas) {
     fromSq = fSq;
     toSq = tSq;
     piece = pieceParam;
     isEnpassant = isEnp;
     promotionType = ptype;
     isPromotion = isProm;
+    isCastle = isCas;
 }
 
 string to_string(Move move) {
