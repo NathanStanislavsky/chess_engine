@@ -11,8 +11,6 @@
 #include <cassert>
 using namespace std;
 
-int square_to_coords(string s);
-
 map<char, Piece> whitePiece = {
     {'P', P},
     {'R', R},
@@ -46,7 +44,10 @@ map<Piece, char> pieceToChar = {
     {q, 'q'}
 }; 
 
+
 Pos::Pos(string fen) {
+
+
     // initializes integer array to empty squares
     for (int i = 0; i < 64; i++) {
         board_array[i] = e;

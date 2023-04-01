@@ -3,8 +3,6 @@
 #include "cassert"
 using namespace std;
 
-string coords_to_square(int index);
-
 int startingWhiteKingPosition = 60;
 int startingWhiteKingRookPosition = 63;
 int startingWhiteQueenRookPosition = 56;

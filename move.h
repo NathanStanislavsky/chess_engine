@@ -17,4 +17,6 @@ class Move {
         Move(int fSq, int tSq, int pieceParam, bool isEnp, int ptype, bool isProm, bool isCas = false);
 };
 
+string coords_to_square(int index);
+int square_to_coords(string s);
 string to_string(Move move);
