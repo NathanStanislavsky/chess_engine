@@ -190,56 +190,26 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     }
                 }
             } else if (piece == B || piece == b) {
-                // generate moves in the top-left direction
-                for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
-                    if (pos.board_array[(row - i) * 8 + (col - i)] == e) {
-                        moves.emplace_back(square, (row - i) * 8 + (col - i), piece, false, piece, false);
-                    } else {
-                        if (piece == B && (pos.board_array[(row - i) * 8 + (col - i)] > 6)) {
-                            moves.emplace_back(square, (row - i) * 8 + (col - i), piece, false, piece, false);
-                        } else if (piece == b && (pos.board_array[(row - i) * 8 + (col - i)] < 7)) {
-                            moves.emplace_back(square, (row - i) * 8 + (col - i), piece, false, piece, false);
+                int bishop_row_off_sets[] = {-1, -1, 1, 1};
+                int bishop_col_off_sets[] = {-1, 1, -1, 1};
+
+                for (int i  = 0; i < 4; i++) {
+                    for (int j = 1; j <= 8; j++) {
+                        int end_row = row + bishop_row_off_sets[i] * j;
+                        int end_col = col + bishop_col_off_sets[i] * j;
+
+                        if (end_row >= 0 && end_row < 8 && end_col >= 0 && end_col < 8) {
+                            if (pos.board_array[end_row * 8 + end_col] == e) {
+                                moves.emplace_back(square, end_row * 8 + end_col, piece, false, piece, false);
+                            } else if (pieceColor(pos.board_array[end_row * 8 + end_col]) != pos.currentPlayer) {
+                                moves.emplace_back(square, end_row * 8 + end_col, piece, false, piece, false);
+                                break;
+                            } else {
+                                break;
+                            }
+                        } else {
+                            break;
                         }
-                        break;
-                    }
-                }
-                // generate moves in the top-right direction
-                for (int i = 1; row - i >= 0 && col + i < 8; i++) {
-                    if (pos.board_array[(row - i) * 8 + (col + i)] == e) {
-                        moves.emplace_back(square, (row - i) * 8 + (col + i), piece, false, piece, false);
-                    } else {
-                        if (piece == B && (pos.board_array[(row - i) * 8 + (col + i)] > 6)) {
-                            moves.emplace_back(square, (row - i) * 8 + (col + i), piece, false, piece, false);
-                        } else if (piece == b && (pos.board_array[(row - i) * 8 + (col + i)] < 7)) {
-                            moves.emplace_back(square, (row - i) * 8 + (col + i), piece, false, piece, false);
-                        }
-                        break;
-                    }
-                }
-                // generate moves in the bottom-left direction
-                for (int i = 1; row + i < 8 && col - i >= 0; i++) {
-                    if (pos.board_array[(row + i) * 8 + (col - i)] == e) {
-                        moves.emplace_back(square, (row + i) * 8 + (col - i), piece, false, piece, false);
-                    } else {
-                        if (piece == B && (pos.board_array[(row + i) * 8 + (col - i)] > 6)) {
-                            moves.emplace_back(square, (row + i) * 8 + (col - i), piece, false, piece, false);
-                        } else if (piece == b && (pos.board_array[(row + i) * 8 + (col - i)] < 7)) {
-                            moves.emplace_back(square, (row + i) * 8 + (col - i), piece, false, piece, false);
-                        }
-                        break;
-                    }
-                }
-                // generate moves in the bottom-right direction
-                for (int i = 1; row + i < 8 && col + i < 8; i++) {
-                    if (pos.board_array[(row + i) * 8 + (col + i)] == e) {
-                        moves.emplace_back(square, (row + i) * 8 + (col + i), piece, false, piece, false);
-                    } else {
-                        if (piece == B && (pos.board_array[(row + i) * 8 + (col + i)] > 6)) {
-                            moves.emplace_back(square, (row + i) * 8 + (col + i), piece, false, piece, false);
-                        } else if (piece == b && (pos.board_array[(row + i) * 8 + (col + i)] < 7)) {
-                            moves.emplace_back(square, (row + i) * 8 + (col + i), piece, false, piece, false);
-                        }
-                        break;
                     }
                 }
             } else if (piece == Q || piece == q) {
