@@ -440,11 +440,11 @@ bool Pos::inCheck(int targetSquare) {
 
     // pawn
     if (currentPlayer) {
-        if (board_array[targetSquare + 7] == p || board_array[targetSquare + 9] == p) {
+        if ((board_array[targetSquare - 7] == p && col < 7) || (board_array[targetSquare - 9] == p && col > 0)) {
             return true;
         }
     } else {
-        if (board_array[targetSquare - 7] == P || board_array[targetSquare - 9] == P) {
+        if ((board_array[targetSquare + 7] == P && col > 0) || (board_array[targetSquare + 9] == P && col < 7)) {
             return true;
         }
     }

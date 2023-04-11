@@ -60,7 +60,7 @@ int down(int square) {
 }
 
 vector<Move> generate_psuedo_moves(Pos pos) {
-
+    
     vector<Move> moves;
     
     for (int square = 0; square < 64; square++) {
@@ -130,7 +130,7 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                     moves.emplace_back(square, downRight(square), piece, false, piece, false);
                 }
                 // right
-                if (col > 0 && pos.board_array[downLeft(square)] > e && pos.board_array[downLeft(square)] < p && row != 6) {
+                if (col > 0 && pieceColor(pos.board_array[downLeft(square)]) != pos.currentPlayer && row != 6) {
                     moves.emplace_back(square, downLeft(square), piece, false, piece, false);
                 }
                 // enpassant left
@@ -159,10 +159,9 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                 if (col > 0 && row == 6 && pos.board_array[downRight(square)] > 0 && pos.board_array[downRight(square)] < 7) {
                     moves.emplace_back(square, downRight(square), piece, false, r, true);
                     moves.emplace_back(square, downRight(square), piece, false, n, true);
-                    moves.emplace_back(square, downRight(square), piece, false, n, true);
+                    moves.emplace_back(square, downRight(square), piece, false, b, true);
                     moves.emplace_back(square, downRight(square), piece, false, q, true);
                 }
-            
             } else if (piece == N || piece == n) {
                 int rowOffsets[] = {-2, -1, 1, 2, 2, 1, -1, -2};
                 int colOffsets[] = {1, 2, 2, 1, -1, -2, -2, -1};

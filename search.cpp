@@ -30,7 +30,7 @@ int perft(Pos pos, int depth, bool verbose) {
         
 
         int result = perft(pos, depth - 1, false);
-        if (verbose || depth == 1) {
+        if (verbose) {
             cout << to_string(validMoves[i]) + " " + to_string(result) << endl;
         }
         count += result;
@@ -43,7 +43,7 @@ int perft(Pos pos, int depth, bool verbose) {
         //     // cout << pos.cr.bkc + pos.cr.bqc<< endl;
         //     // cout << pos.inCheck(2) + pos.inCheck(3) + pos.inCheck(5) + pos.inCheck(6) << endl;
         // }
-        cout << pos.board_array[4] << endl;
+        
         
     }
     return count;
