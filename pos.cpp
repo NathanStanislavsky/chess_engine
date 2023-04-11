@@ -130,8 +130,10 @@ Pos::Pos(string fen) {
 void Pos::printBoard() {
     for (int r = 0; r < 8; r++) {
         for (int c = 0; c < 8; c++) {
+            int originalPiece = board_array[r*8+c];
             cout << pieceToChar[(Piece)board_array[r*8+c]];
             cout << " ";
+            assert(originalPiece == board_array[r*8+c]);
         }
         cout << "\n";
     }

@@ -19,13 +19,14 @@ int perft(Pos pos, int depth, bool verbose) {
     for (int i = 0; i < validMoves.size(); i++) {
 
         pos.doMove(validMoves[i]);
-        if (depth == 1) {
-            cout << "after do move" << endl;
-            pos.printBoard();
-            cout << pos.board_array[4] << endl;
-            // cout << pos.cr.bkc + pos.cr.bqc<< endl;
-            // cout << pos.inCheck(2) + pos.inCheck(3) + pos.inCheck(5) + pos.inCheck(6) << endl;
-        }
+        // if (depth == 1) {
+        //     // cout << "after do move" << endl;
+        //     // pos.printBoard();
+        //     int temp1 = pos.board_array[4];
+        //     cout << temp1 << endl;
+        //     // cout << pos.cr.bkc + pos.cr.bqc<< endl;
+        //     // cout << pos.inCheck(2) + pos.inCheck(3) + pos.inCheck(5) + pos.inCheck(6) << endl;
+        // }
         
 
         int result = perft(pos, depth - 1, false);
@@ -34,13 +35,15 @@ int perft(Pos pos, int depth, bool verbose) {
         }
         count += result;
         pos.undoMove();
-        if (depth == 1) {
-            cout << "after undo" << endl;
-            pos.printBoard();
-            cout << pos.board_array[4] << endl;
-            // cout << pos.cr.bkc + pos.cr.bqc<< endl;
-            // cout << pos.inCheck(2) + pos.inCheck(3) + pos.inCheck(5) + pos.inCheck(6) << endl;
-        }
+        // if (depth == 1) {
+        //     // cout << "after undo" << endl;
+        //     // pos.printBoard();
+        //     int temp2 = pos.board_array[4];
+        //     cout << temp2 << endl;
+        //     // cout << pos.cr.bkc + pos.cr.bqc<< endl;
+        //     // cout << pos.inCheck(2) + pos.inCheck(3) + pos.inCheck(5) + pos.inCheck(6) << endl;
+        // }
+        cout << pos.board_array[4] << endl;
         
     }
     return count;
