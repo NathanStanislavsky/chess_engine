@@ -283,21 +283,21 @@ vector<Move> generate_psuedo_moves(Pos pos) {
                 }
 
                 // white king castle
-                if (pos.currentPlayer && pos.cr.wkc && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
+                if (pos.currentPlayer && pos.cr.wkc && !pos.inCheck(square) && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e && pos.board_array[square + 3] == R) {
                     moves.emplace_back(square, square + 2, piece, false, piece, false, true);
                 }
 
                 // white queen castling
-                if (pos.currentPlayer && pos.cr.wqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                if (pos.currentPlayer && pos.cr.wqc && !pos.inCheck(square) && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e && pos.board_array[square - 3] == e && pos.board_array[square - 4] == R) {
                     moves.emplace_back(square, square - 2, piece, false, piece, false, true);
                 }
                 // black king castle
-                if (!pos.currentPlayer && pos.cr.bkc && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e) {
+                if (!pos.currentPlayer && pos.cr.bkc && !pos.inCheck(square) && !pos.inCheck(square + 1) && !pos.inCheck(square + 2) && pos.board_array[square + 1] == e && pos.board_array[square + 2] == e && pos.board_array[square + 3] == r) {
                     moves.emplace_back(square, square + 2, piece, false, piece, false, true);
                 }
 
                 // black queen castling
-                if (!pos.currentPlayer && pos.cr.bqc && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e) {
+                if (!pos.currentPlayer && pos.cr.bqc && !pos.inCheck(square) && !pos.inCheck(square - 1) && !pos.inCheck(square - 2) && pos.board_array[square - 1] == e && pos.board_array[square - 2] == e && pos.board_array[square - 3] == e && pos.board_array[square - 4] == r) {
                     moves.emplace_back(square, square - 2, piece, false, piece, false, true);
                 }
             }

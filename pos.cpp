@@ -224,7 +224,7 @@ void Pos::undoMove() {
     enpassantSquareLog.pop_back();
 
     if (move.isPromotion) {
-        if (currentPlayer) {
+        if (move.piece == P) {
             board_array[move.fromSq] = P; // **********************************************************************************
             board_array[move.toSq] = pieceCapturedLog.back();
         } else {
@@ -337,7 +337,7 @@ bool Pos::inCheck(int targetSquare) {
     // attack from top left
     for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
         if (currentPlayer) {
-            if (board_array[(row - i) * 8 + (col - i)] != e || board_array[(row - i) * 8 + (col - i)] != b && board_array[(row - i) * 8 + (col - i)] != q) {
+            if (board_array[(row - i) * 8 + (col - i)] != e && board_array[(row - i) * 8 + (col - i)] != b && board_array[(row - i) * 8 + (col - i)] != q) {
                 break;
             } else if (board_array[(row - i) * 8 + (col - i)] == b || board_array[(row - i) * 8 + (col - i)] == q) {
                 return true;

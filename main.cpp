@@ -10,10 +10,10 @@ using namespace std;
 // main driver
 int main()
 {
-    Pos pos("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+    Pos pos("r2q1rk1/pP1p2pp/Q4n2/bbp1p3/Np6/1B3NBn/pPPP1PPP/R3K2R b KQ - 0 1");
     pos.printBoard();
     
-    cout << perft(pos, 4, true) << endl;
+    cout << perft(pos, 2, true) << endl;
 
     return 0;   
 }
