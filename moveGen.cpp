@@ -59,7 +59,7 @@ int down(int square) {
     return newSquare;
 }
 
-vector<Move> generate_psuedo_moves(Pos pos) {
+vector<Move> generate_psuedo_moves(Pos& pos) {
     
     vector<Move> moves;
     
@@ -306,7 +306,7 @@ vector<Move> generate_psuedo_moves(Pos pos) {
     return moves;
 }
 
-vector<Move> generate_legal_moves(Pos pos) {
+vector<Move> generate_legal_moves(Pos& pos) {
     vector<Move> psuedo_moves = generate_psuedo_moves(pos);
     vector<Move> legal_moves;
     // do move, generate opponenets psuedo moves, check if it can take king

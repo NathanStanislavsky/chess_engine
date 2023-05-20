@@ -5,15 +5,17 @@
 #include "search.h"
 #include <string>
 #include <vector>
+#include "timer.h"
 using namespace std;
 
 // main driver
 int main()
 {
-    Pos pos("r2q1rk1/pP1p2pp/Q4n2/bbp1p3/Np6/1B3NBn/pPPP1PPP/R3K2R b KQ - 0 1");
+    Pos pos("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     pos.printBoard();
+    Timestamp start = get_current_ms();
+    cout << perft(pos, 5, true) << endl;
+    print_time_diff(start);
     
-    cout << perft(pos, 2, true) << endl;
-
     return 0;   
 }

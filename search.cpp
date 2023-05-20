@@ -5,13 +5,10 @@
 #include <vector>
 using namespace std;
 
-int perft(Pos pos, int depth, bool verbose) {
+int perft(Pos& pos, int depth, bool verbose) {
     if (depth == 0) {
         return 1;
     }
-    // if (depth == 1) {
-    //     pos.printBoard();
-    // }
 
     vector<Move> validMoves = generate_legal_moves(pos);
     int count = 0;
@@ -19,15 +16,6 @@ int perft(Pos pos, int depth, bool verbose) {
     for (int i = 0; i < validMoves.size(); i++) {
 
         pos.doMove(validMoves[i]);
-        // if (depth == 1) {
-        //     // cout << "after do move" << endl;
-        //     // pos.printBoard();
-        //     int temp1 = pos.board_array[4];
-        //     cout << temp1 << endl;
-        //     // cout << pos.cr.bkc + pos.cr.bqc<< endl;
-        //     // cout << pos.inCheck(2) + pos.inCheck(3) + pos.inCheck(5) + pos.inCheck(6) << endl;
-        // }
-        
 
         int result = perft(pos, depth - 1, false);
         if (verbose) {
@@ -35,18 +23,33 @@ int perft(Pos pos, int depth, bool verbose) {
         }
         count += result;
         pos.undoMove();
-        // if (depth == 1) {
-        //     // cout << "after undo" << endl;
-        //     // pos.printBoard();
-        //     int temp2 = pos.board_array[4];
-        //     cout << temp2 << endl;
-        //     // cout << pos.cr.bkc + pos.cr.bqc<< endl;
-        //     // cout << pos.inCheck(2) + pos.inCheck(3) + pos.inCheck(5) + pos.inCheck(6) << endl;
-        // }
+        
         
         
     }
     return count;
+}
+
+int search(Pos& pos, int depth) {
+    
+}
+
+Move getBestMove(Pos& pos, int depth) {
+    vector<Move> list = generate_legal_moves(pos);
+    int max = -10000;
+    Move bestMove = list[0];
+    for (Move move : list) {
+        pos.doMove(move);
+        int eval = -search(pos, depth);
+        pos.undoMove();
+
+        if (eval > max) {
+            max = eval;
+            bestMove = move;
+        }
+    }
+
+    return bestMove;
 }
 
 
