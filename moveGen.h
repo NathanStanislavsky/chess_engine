@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool pieceColor(Piece piece);
+bool pieceColor(int piece);
 
 vector<Move> generate_psuedo_moves(Pos& pos);
 

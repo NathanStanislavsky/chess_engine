@@ -46,8 +46,6 @@ map<Piece, char> pieceToChar = {
 
 
 Pos::Pos(string fen) {
-
-
     // initializes integer array to empty squares
     for (int i = 0; i < 64; i++) {
         board_array[i] = e;

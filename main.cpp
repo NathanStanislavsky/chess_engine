@@ -14,7 +14,8 @@ int main()
     Pos pos("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     pos.printBoard();
     Timestamp start = get_current_ms();
-    cout << perft(pos, 5, true) << endl;
+    // cout << perft(pos, 5, true) << endl;
+    cout << to_string(getBestMove(pos, 3)) << endl;
     print_time_diff(start);
     
     return 0;   
