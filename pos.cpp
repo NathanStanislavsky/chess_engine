@@ -450,3 +450,14 @@ bool Pos::inCheck(int targetSquare) {
 
     return false;
 }
+
+void Pos::find_king_locations() {
+    for (int square = 0; square < 64; square++) {
+        if (board_array[square] == K) {
+            white_king_location = square;
+        }
+        if (board_array[square] == k) {
+            black_king_location = square;
+        }
+    }
+}

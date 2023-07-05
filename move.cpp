@@ -10,6 +10,9 @@ Move::Move(int fSq, int tSq, int pieceParam, bool isEnp, int ptype, bool isProm,
     isPromotion = isProm;
     isCastle = isCas;
 }
+Move::Move() {
+    
+}
 
 string to_string(Move move) {
     return coords_to_square(move.fromSq) + coords_to_square(move.toSq);

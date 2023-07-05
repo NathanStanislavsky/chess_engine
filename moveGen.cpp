@@ -323,7 +323,6 @@ vector<Move> generate_legal_moves(Pos& pos) {
 
             if (pos.board_array[oppsPsuedoMoves[j].toSq] == K || pos.board_array[oppsPsuedoMoves[j].toSq] == k) {
                 isKingSafe = false;
-                // cout << "FUCKKKKK";
                 break;
             }
         }

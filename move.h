@@ -15,6 +15,7 @@ class Move {
 
         bool isCastle;
         Move(int fSq, int tSq, int pieceParam, bool isEnp, int ptype, bool isProm, bool isCas = false);
+        Move();
 };
 
 string coords_to_square(int index);

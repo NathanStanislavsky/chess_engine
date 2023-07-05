@@ -21,6 +21,9 @@ class Pos {
         // enpassant square
         int enpassantSquare;
 
+        int white_king_location = 60;
+        int black_king_location = 4;
+
         vector<int> pieceCapturedLog;
         vector<Castling> castlingRightsLog;
         vector<int> enpassantSquareLog;
@@ -34,4 +37,6 @@ class Pos {
         void undoMove();
 
         bool inCheck(int targetSquare);
+
+        void find_king_locations();
 };

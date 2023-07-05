@@ -1,10 +1,11 @@
 #pragma once
 #include "pos.h"
+#include <string>
 
 int perft(Pos& pos, int depth, bool verbose);
-
-Move getBestMove(Pos& pos, int depth);
 
 int search(Pos& pos, int depth);
 
 int eval(Pos& pos);
+
+int negaMax(Pos pos, int depth);

@@ -4,6 +4,7 @@
 #include "move.h"
 #include <vector>
 #include <map>
+#include <string>
 using namespace std;
 
 map<int, int> pointValue = {
@@ -65,42 +66,21 @@ int eval(Pos& pos) {
     return currentPlayerMaterial - opponentPlayerMaterial;
 }
 
-int search(Pos& pos, int depth) {
-    if (depth == 0) {
-        return eval(pos);
-    }
 
-    vector<Move> list = generate_legal_moves(pos);
-    int max = -10000;
-    for (Move move : list) {
-        pos.doMove(move);
-        int eval = -search(pos, depth-1);
-        pos.undoMove();
-
-        if (eval > max) {
-            max = eval;
-        }
+int negaMax(Pos pos, int depth) {  // Updated function implementation
+    int score = 0;
+    if (depth == 0) return eval(pos);
+    int max = -500000000;
+    vector<Move> movelist = generate_legal_moves(pos);
+    for (int count = 0; count < movelist.size(); count++) {
+        score = -negaMax(pos, depth - 1);
+        if (score > max)
+            max = score;
     }
     return max;
 }
 
-Move getBestMove(Pos& pos, int depth) {
-    vector<Move> list = generate_legal_moves(pos);
-    int max = -10000;
-    Move bestMove = list[0];
-    for (Move move : list) {
-        pos.doMove(move);
-        int eval = -search(pos, depth);
-        pos.undoMove();
-
-        if (eval > max) {
-            max = eval;
-            bestMove = move;
-        }
-    }
-
-    return bestMove;
+int search(Pos& pos, int depth) {
+    return negaMax(pos, depth);  // Update the function call to use negaMax
 }
-
-
 
