@@ -8,4 +8,6 @@ int search(Pos& pos, int depth);
 
 int eval(Pos& pos);
 
-int negaMax(Pos pos, int depth);
+int negaMax(Pos& pos, int depth);
+
+string get_best_move(Pos& pos, int depth);

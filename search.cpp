@@ -67,17 +67,60 @@ int eval(Pos& pos) {
 }
 
 
-int negaMax(Pos pos, int depth) {  // Updated function implementation
+int negaMax(Pos& pos, int depth) {  // Updated function implementation
     int score = 0;
     if (depth == 0) return eval(pos);
     int max = -500000000;
     vector<Move> movelist = generate_legal_moves(pos);
     for (int count = 0; count < movelist.size(); count++) {
+        pos.doMove(movelist[count]);
+
         score = -negaMax(pos, depth - 1);
+        pos.undoMove();
+
         if (score > max)
             max = score;
     }
+    
+
+    if (movelist.size() == 0) {
+        pos.find_king_locations();
+        //checkmate
+        if (pos.currentPlayer) {
+            if (pos.inCheck(pos.white_king_location)) {
+                return -10000;
+            }
+        } else {
+            if (pos.inCheck(pos.black_king_location)) {
+                return -10000;
+            }
+        }
+        return 0;
+    }
+
     return max;
+}
+
+string get_best_move(Pos& pos, int depth) {
+    Move best_move_so_far;
+    int score = 0;
+    
+    int max = -500000000;
+    vector<Move> movelist = generate_legal_moves(pos);
+
+    for (int count = 0; count < movelist.size(); count++) {
+
+        pos.doMove(movelist[count]);
+
+        score = -negaMax(pos, depth - 1);
+        pos.undoMove();
+
+        if (score > max)
+            max = score;
+            best_move_so_far = movelist[count];
+    }
+
+    return to_string(best_move_so_far);
 }
 
 int search(Pos& pos, int depth) {

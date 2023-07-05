@@ -11,11 +11,13 @@ using namespace std;
 // main driver
 int main()
 {
-    Pos pos("4rk2/8/2R5/p5n1/3B4/1P2P3/P3K3/8 w - - 0 40");
+    Pos pos("Q4rk1/5pp1/2Q1p3/3pP3/4b3/2P3pq/4PR1P/5RK1 b - - 0 34");
     pos.printBoard();
     Timestamp start = get_current_ms();
-    cout << eval(pos) << endl;
-    cout << search(pos, 4) << endl;
+    int think_time = 2000;
+    for (int depth_count = 1; think_time > get_time_diff(start); depth_count++) {
+        cout << search(pos, depth_count) << endl;
+    }
     print_time_diff(start);
     
     return 0;   
