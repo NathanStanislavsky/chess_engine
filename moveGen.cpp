@@ -110,7 +110,7 @@ vector<Move> generate_psuedo_moves(Pos& pos) {
                     moves.emplace_back(square, upLeft(square), piece, false, Q, true);
                 }
                 // promotion capture right
-                if (col < 7 && row == 1 && pos.board_array[upRight(square)] > 6) {
+                if (col < 7 && row == 1 && pos.board_array[upRight(square)] != pos.currentPlayer) {
                     moves.emplace_back(square, upRight(square), piece, false, R, true);
                     moves.emplace_back(square, upRight(square), piece, false, N, true);
                     moves.emplace_back(square, upRight(square), piece, false, B, true);
@@ -125,19 +125,19 @@ vector<Move> generate_psuedo_moves(Pos& pos) {
                     moves.emplace_back(square, down(down(square)), piece, false, piece, false);
                 }
                 // Pawns can capture enemy pieces diagonally
-                // left
-                if (col < 7 && pos.board_array[downRight(square)] > 0 && pos.board_array[downRight(square)] < 7 && row != 6) {
+                // right
+                if (col < 7 && pieceColor(pos.board_array[downRight(square)]) != pos.currentPlayer && row != 6) {
                     moves.emplace_back(square, downRight(square), piece, false, piece, false);
                 }
-                // right
+                // left
                 if (col > 0 && pieceColor(pos.board_array[downLeft(square)]) != pos.currentPlayer && row != 6) {
                     moves.emplace_back(square, downLeft(square), piece, false, piece, false);
                 }
-                // enpassant left
+                // enpassant right
                 if (row == 4 && downRight(square) == pos.enpassantSquare) {
                     moves.emplace_back(square, downRight(square), piece, true, piece, false);
                 }
-                // enpassant right
+                // enpassant left
                 if (row == 4 && downLeft(square) == pos.enpassantSquare) {
                     moves.emplace_back(square, downLeft(square), piece, true, piece, false);
                 }
@@ -149,14 +149,14 @@ vector<Move> generate_psuedo_moves(Pos& pos) {
                     moves.emplace_back(square, down(square), piece, false, q, true);
                 }
                 // promotion capture left
-                if (col < 7 && row == 6 && pos.board_array[downLeft(square)] > 0 && pos.board_array[downLeft(square)] < 7) {
+                if (col > 0 && row == 6 && pieceColor(pos.board_array[downLeft(square)]) != pos.currentPlayer) {
                     moves.emplace_back(square, downLeft(square), piece, false, r, true);
                     moves.emplace_back(square, downLeft(square), piece, false, n, true);
                     moves.emplace_back(square, downLeft(square), piece, false, b, true);
                     moves.emplace_back(square, downLeft(square), piece, false, q, true);
                 }
                 // promotion capture right
-                if (col > 0 && row == 6 && pos.board_array[downRight(square)] > 0 && pos.board_array[downRight(square)] < 7) {
+                if (col < 7 && row == 6 && pieceColor(pos.board_array[downRight(square)]) != pos.currentPlayer) {
                     moves.emplace_back(square, downRight(square), piece, false, r, true);
                     moves.emplace_back(square, downRight(square), piece, false, n, true);
                     moves.emplace_back(square, downRight(square), piece, false, b, true);
@@ -313,17 +313,13 @@ vector<Move> generate_legal_moves(Pos& pos) {
 
     for (int i = 0; i < psuedo_moves.size(); i++) {
         pos.doMove(psuedo_moves[i]);
-        // pos.printBoard();
-        // cout << to_string(psuedo_moves[i]) << endl;
+        
         vector<Move> oppsPsuedoMoves = generate_psuedo_moves(pos);
-        // pos.printBoard();
+       
         bool isKingSafe = true;
         for (int j = 0; j < oppsPsuedoMoves.size(); j++) {
-            // cout << to_string(oppsPsuedoMoves[j]) << endl;
-
             if (pos.board_array[oppsPsuedoMoves[j].toSq] == K || pos.board_array[oppsPsuedoMoves[j].toSq] == k) {
                 isKingSafe = false;
-                // cout << "FUCKKKKK";
                 break;
             }
         }
@@ -331,7 +327,6 @@ vector<Move> generate_legal_moves(Pos& pos) {
             legal_moves.push_back(psuedo_moves[i]);
         }
         pos.undoMove();
-        // pos.printBoard();
     }
     return legal_moves;
 }

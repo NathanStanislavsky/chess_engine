@@ -11,11 +11,12 @@ using namespace std;
 // main driver
 int main()
 {
-    Pos pos("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    Pos pos("Q4rk1/5pp1/2Q1p3/3pP3/4b3/2P3pq/4PR1P/5RK1 b - - 0 34");
     pos.printBoard();
     Timestamp start = get_current_ms();
-    // cout << perft(pos, 5, true) << endl;
-    cout << to_string(getBestMove(pos, 3)) << endl;
+
+    cout << perft(pos, 2, true) << endl;
+    
     print_time_diff(start);
     
     return 0;   
