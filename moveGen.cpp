@@ -49,7 +49,7 @@ int downLeft(int square) {
 int downRight(int square) {
     int newSquare = square + 9;
     assert(square >= 0 && square < 64);
-    assert(newSquare >= 0 && newSquare < 64);
+    // assert(newSquare >= 0 && newSquare < 64);
     return newSquare;
 }
 int down(int square) {
@@ -125,19 +125,19 @@ vector<Move> generate_psuedo_moves(Pos& pos) {
                     moves.emplace_back(square, down(down(square)), piece, false, piece, false);
                 }
                 // Pawns can capture enemy pieces diagonally
-                // left
+                // right
                 if (col < 7 && pos.board_array[downRight(square)] > 0 && pos.board_array[downRight(square)] < 7 && row != 6) {
                     moves.emplace_back(square, downRight(square), piece, false, piece, false);
                 }
-                // right
+                // left
                 if (col > 0 && pieceColor(pos.board_array[downLeft(square)]) != pos.currentPlayer && row != 6) {
                     moves.emplace_back(square, downLeft(square), piece, false, piece, false);
                 }
-                // enpassant left
+                // enpassant right
                 if (row == 4 && downRight(square) == pos.enpassantSquare) {
                     moves.emplace_back(square, downRight(square), piece, true, piece, false);
                 }
-                // enpassant right
+                // enpassant left
                 if (row == 4 && downLeft(square) == pos.enpassantSquare) {
                     moves.emplace_back(square, downLeft(square), piece, true, piece, false);
                 }

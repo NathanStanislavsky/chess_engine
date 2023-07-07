@@ -69,9 +69,13 @@ int eval(Pos& pos) {
 
 int negaMax(Pos& pos, int depth) {  // Updated function implementation
     int score = 0;
+
     if (depth == 0) return eval(pos);
+
     int max = -500000000;
+    
     vector<Move> movelist = generate_legal_moves(pos);
+
     for (int count = 0; count < movelist.size(); count++) {
         pos.doMove(movelist[count]);
 
