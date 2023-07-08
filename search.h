@@ -1,13 +1,14 @@
 #pragma once
 #include "pos.h"
 #include <string>
+const int MAX = 100000000;
 
 int perft(Pos& pos, int depth, bool verbose);
 
-int search(Pos& pos, int depth);
-
 int eval(Pos& pos);
 
-int negaMax(Pos& pos, int depth);
+int negaMax(Pos& pos, int depth, int alpha, int beta);
 
-string get_best_move(Pos& pos, int depth);
+int quiescence(Pos& pos, int alpha, int beta);
+
+Move get_best_move(Pos& pos, int depth);

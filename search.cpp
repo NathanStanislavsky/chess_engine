@@ -66,68 +66,97 @@ int eval(Pos& pos) {
     return currentPlayerMaterial - opponentPlayerMaterial;
 }
 
-
-int negaMax(Pos& pos, int depth) {  // Updated function implementation
+int negaMax(Pos& pos, int depth, int alpha, int beta) {
+    if (depth == 0) return quiescence(pos, alpha, beta);
     int score = 0;
-
-    if (depth == 0) return eval(pos);
-
-    int max = -500000000;
-    
+    int best_score = -MAX;
     vector<Move> movelist = generate_legal_moves(pos);
-
-    for (int count = 0; count < movelist.size(); count++) {
-        pos.doMove(movelist[count]);
-
-        score = -negaMax(pos, depth - 1);
-        pos.undoMove();
-
-        if (score > max)
-            max = score;
-    }
-    
 
     if (movelist.size() == 0) {
         pos.find_king_locations();
         //checkmate
         if (pos.currentPlayer) {
             if (pos.inCheck(pos.white_king_location)) {
-                return -10000;
+                return -MAX + 1;
             }
         } else {
             if (pos.inCheck(pos.black_king_location)) {
-                return -10000;
+                return -MAX + 1;
             }
         }
         return 0;
     }
 
-    return max;
+    for (int count = 0; count < movelist.size(); count++) {
+        pos.doMove(movelist[count]);
+        score = -negaMax(pos, depth - 1, -beta, -alpha);
+        pos.undoMove();
+        if (score > best_score) {
+            best_score = score;
+            if( score >= beta )
+                return beta;   //  fail hard beta-cutoff
+            if( score > alpha )
+                alpha = score; // alpha acts like max in MiniMax
+        }
+    }
+    return best_score;
 }
 
-string get_best_move(Pos& pos, int depth) {
-    Move best_move_so_far;
-    int score = 0;
-    
-    int max = -500000000;
-    vector<Move> movelist = generate_legal_moves(pos);
+int quiescence(Pos& pos, int alpha, int beta) {
+    int best_score = eval(pos);
+    if( best_score >= beta )
+        return beta;
+    if( alpha < best_score )
+        alpha = best_score;
+    vector<Move> moves = generate_legal_moves(pos);
 
-    for (int count = 0; count < movelist.size(); count++) {
-
-        pos.doMove(movelist[count]);
-
-        score = -negaMax(pos, depth - 1);
-        pos.undoMove();
-
-        if (score > max)
-            max = score;
-            best_move_so_far = movelist[count];
+    if (moves.size() == 0) {
+        pos.find_king_locations();
+        //checkmate
+        if (pos.currentPlayer) {
+            if (pos.inCheck(pos.white_king_location)) {
+                return -MAX + 1;
+            }
+        } else {
+            if (pos.inCheck(pos.black_king_location)) {
+                return -MAX + 1;
+            }
+        }
+        return 0;
     }
 
-    return to_string(best_move_so_far);
+    for (int i = 0; i < moves.size(); i++) {
+        if (pos.board_array[moves[i].toSq] != e) {
+            pos.doMove(moves[i]);
+            int score = -quiescence(pos, -beta, -alpha);
+            pos.undoMove();
+
+            if (score > best_score) {
+                best_score = score;
+                if( score >= beta )
+                    return beta;
+                if( score > alpha )
+                    alpha = score;
+            }
+        }
+    }
+    return best_score;
 }
 
-int search(Pos& pos, int depth) {
-    return negaMax(pos, depth);  // Update the function call to use negaMax
+Move get_best_move(Pos& pos, int depth) {
+    Move best_move;
+    int score = 0;
+    int best_score = -MAX;
+    vector<Move> movelist = generate_legal_moves(pos);
+    for (int count = 0; count < movelist.size(); count++) {
+        pos.doMove(movelist[count]);
+        score = -negaMax(pos, depth - 1, -MAX, -best_score);
+        cout << "Move: " << to_string(movelist[count]) << " score: " << score << endl;
+        pos.undoMove();
+        if (score > best_score) {
+            best_move = movelist[count];
+            best_score = score;
+        }
+    }
+    return best_move;
 }
-

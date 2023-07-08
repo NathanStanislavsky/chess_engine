@@ -149,14 +149,14 @@ vector<Move> generate_psuedo_moves(Pos& pos) {
                     moves.emplace_back(square, down(square), piece, false, q, true);
                 }
                 // promotion capture left
-                if (col < 7 && row == 6 && pos.board_array[downLeft(square)] > 0 && pos.board_array[downLeft(square)] < 7) {
+                if (col > 0 && row == 6 && pos.board_array[downLeft(square)] > 0 && pos.board_array[downLeft(square)] < 7) {
                     moves.emplace_back(square, downLeft(square), piece, false, r, true);
                     moves.emplace_back(square, downLeft(square), piece, false, n, true);
                     moves.emplace_back(square, downLeft(square), piece, false, b, true);
                     moves.emplace_back(square, downLeft(square), piece, false, q, true);
                 }
                 // promotion capture right
-                if (col > 0 && row == 6 && pos.board_array[downRight(square)] > 0 && pos.board_array[downRight(square)] < 7) {
+                if (col < 7 && row == 6 && pos.board_array[downRight(square)] > 0 && pos.board_array[downRight(square)] < 7) {
                     moves.emplace_back(square, downRight(square), piece, false, r, true);
                     moves.emplace_back(square, downRight(square), piece, false, n, true);
                     moves.emplace_back(square, downRight(square), piece, false, b, true);

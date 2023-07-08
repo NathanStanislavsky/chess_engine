@@ -11,15 +11,13 @@ using namespace std;
 // main driver
 int main()
 {
-    Pos pos("Q4rk1/5pp1/2Q1p3/3pP3/4b3/2P4q/4PR1p/5RK1 w - - 0 35");
+    Pos pos("8/pk3B2/4Q3/bNp2p2/2P3bK/3r4/PP6/R4R2 b - - 13 54");
     pos.printBoard();
     Timestamp start = get_current_ms();
-    // int think_time = 2000;
-    // for (int depth_count = 1; think_time > get_time_diff(start); depth_count++) {
-    //     cout << search(pos, depth_count) << endl;
-    // }
-
-    cout << perft(pos, 1, true) << endl;
+    int think_time = 10000;
+    for (int depth = 1; think_time > get_time_diff(start); depth++) {
+        cout << "depth: " << depth << " best_move: " << to_string(get_best_move(pos, depth)) << endl;
+    }
     print_time_diff(start);
     
     return 0;   
